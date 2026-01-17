@@ -1,8 +1,5 @@
 package hu.bme.sch.kirdev.ticketingspring.ticket
 
-import hu.bme.sch.kirdev.ticketingspring.board.BoardEntity
-import hu.bme.sch.kirdev.ticketingspring.label.LabelEntity
-
 data class CreateTicketDto(
     val name: String,
     val description: String?,

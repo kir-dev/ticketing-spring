@@ -1,6 +1,5 @@
 package hu.bme.sch.kirdev.ticketingspring.label
 
-import io.micrometer.observation.transport.ResponseContext
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException

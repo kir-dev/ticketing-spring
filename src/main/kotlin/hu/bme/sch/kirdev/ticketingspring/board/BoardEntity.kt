@@ -1,14 +1,8 @@
 package hu.bme.sch.kirdev.ticketingspring.board
 
 import hu.bme.sch.kirdev.ticketingspring.ticket.TicketEntity
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
-import jakarta.persistence.Table
-import org.hibernate.proxy.HibernateProxy
-import java.util.Date
+import jakarta.persistence.*
+import java.util.*
 
 
 @Entity
