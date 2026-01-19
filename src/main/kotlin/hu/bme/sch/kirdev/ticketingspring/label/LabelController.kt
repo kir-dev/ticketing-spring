@@ -28,12 +28,12 @@ class LabelController(
             ApiResponse(
                 responseCode = "201",
                 description = "Label created",
-                content = [Content(schema = Schema(implementation = BoardEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedLabelDto::class))]
             ),
         ]
     )
     @PostMapping
-    fun createLabel(@RequestBody label: CreateLabelDto): ResponseEntity<LabelEntity> {
+    fun createLabel(@RequestBody label: CreateLabelDto): ResponseEntity<DetailedLabelDto> {
         val created = labelService.createLabel(label)
         return ResponseEntity.status(HttpStatus.CREATED).body(created)
     }
@@ -44,12 +44,12 @@ class LabelController(
             ApiResponse(
                 responseCode = "200",
                 description = "Labels found",
-                content = [Content(schema = Schema(implementation = LabelEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedLabelDto::class))]
             )
         ]
     )
     @GetMapping
-    fun getAllLabels(): ResponseEntity<List<LabelEntity>> {
+    fun getAllLabels(): ResponseEntity<List<DetailedLabelDto>> {
         val labels = labelService.getAllLabels()
         return ResponseEntity.status(HttpStatus.OK).body(labels)
     }
@@ -60,13 +60,13 @@ class LabelController(
             ApiResponse(
                 responseCode = "200",
                 description = "Label found",
-                content = [Content(schema = Schema(implementation = LabelEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedLabelDto::class))]
             ),
             ApiResponse(responseCode = "404", description = "Label not found"),
         ]
     )
     @GetMapping("/{id}")
-    fun getLabel(@PathVariable id: Int): ResponseEntity<LabelEntity> {
+    fun getLabel(@PathVariable id: Int): ResponseEntity<DetailedLabelDto> {
         val label = labelService.getLabel(id)
         return ResponseEntity.status(HttpStatus.OK).body(label)
     }
@@ -77,13 +77,13 @@ class LabelController(
             ApiResponse(
                 responseCode = "200",
                 description = "Label updated",
-                content = [Content(schema = Schema(implementation = LabelEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedLabelDto::class))]
             ),
             ApiResponse(responseCode = "404", description = "Label not found"),
         ]
     )
     @PatchMapping("/{id}")
-    fun updateLabel(@PathVariable id: Int, @RequestBody label: UpdateLabelDto): ResponseEntity<LabelEntity> {
+    fun updateLabel(@PathVariable id: Int, @RequestBody label: UpdateLabelDto): ResponseEntity<DetailedLabelDto> {
         val updated = labelService.updateLabel(id, label)
         return ResponseEntity.status(HttpStatus.OK).body(updated)
     }

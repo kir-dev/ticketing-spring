@@ -26,13 +26,13 @@ class TicketController(
             ApiResponse(
                 responseCode = "201",
                 description = "Ticket created",
-                content = [Content(schema = Schema(implementation = TicketEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedTicketDto::class))]
             ),
             ApiResponse(responseCode = "400", description = "Board or label not found"),
         ]
     )
     @PostMapping
-    fun createTicket(@RequestBody ticket: CreateTicketDto): ResponseEntity<TicketEntity> {
+    fun createTicket(@RequestBody ticket: CreateTicketDto): ResponseEntity<DetailedTicketDto> {
         val created = ticketService.createTicket(ticket)
         return ResponseEntity.status(HttpStatus.CREATED).body(created)
     }
@@ -43,12 +43,12 @@ class TicketController(
             ApiResponse(
                 responseCode = "200",
                 description = "Tickets found",
-                content = [Content(schema = Schema(implementation = TicketEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedTicketDto::class))]
             )
         ]
     )
     @GetMapping
-    fun getAllTickets(): ResponseEntity<List<TicketEntity>> {
+    fun getAllTickets(): ResponseEntity<List<DetailedTicketDto>> {
         val tickets = ticketService.getAllTickets()
         return ResponseEntity.status(HttpStatus.OK).body(tickets)
     }
@@ -59,13 +59,13 @@ class TicketController(
             ApiResponse(
                 responseCode = "200",
                 description = "Ticket found",
-                content = [Content(schema = Schema(implementation = TicketEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedTicketDto::class))]
             ),
             ApiResponse(responseCode = "404", description = "Ticket not found"),
         ]
     )
     @GetMapping("/{id}")
-    fun getTicket(@PathVariable id: Int): ResponseEntity<TicketEntity> {
+    fun getTicket(@PathVariable id: Int): ResponseEntity<DetailedTicketDto> {
         val ticket = ticketService.getTicket(id)
         return ResponseEntity.status(HttpStatus.OK).body(ticket)
     }
@@ -76,14 +76,14 @@ class TicketController(
             ApiResponse(
                 responseCode = "200",
                 description = "Ticket updated",
-                content = [Content(schema = Schema(implementation = TicketEntity::class))]
+                content = [Content(schema = Schema(implementation = DetailedTicketDto::class))]
             ),
             ApiResponse(responseCode = "400", description = "Board or label not found"),
             ApiResponse(responseCode = "404", description = "Ticket not found"),
         ]
     )
     @PatchMapping("/{id}")
-    fun updateTicket(@PathVariable id: Int, @RequestBody ticket: UpdateTicketDto): ResponseEntity<TicketEntity> {
+    fun updateTicket(@PathVariable id: Int, @RequestBody ticket: UpdateTicketDto): ResponseEntity<DetailedTicketDto> {
         val updated = ticketService.updateTicket(id, ticket)
         return ResponseEntity.status(HttpStatus.OK).body(updated)
     }

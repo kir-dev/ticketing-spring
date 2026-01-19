@@ -13,7 +13,7 @@ class TicketService(
     private val boardRepository: BoardRepository
 ) {
 
-    fun createTicket(ticket: CreateTicketDto): TicketEntity {
+    fun createTicket(ticket: CreateTicketDto): DetailedTicketDto {
         val board = boardRepository.findById(ticket.boardId)
             .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found") }
         val labels = ticket.labelIds?.map {
@@ -25,19 +25,20 @@ class TicketService(
             description = ticket.description?:"",
             board = board,
             labels = labels
-        ))
+        )).let { DetailedTicketDto(it) }
     }
 
-    fun getTicket(id: Int): TicketEntity {
+    fun getTicket(id: Int): DetailedTicketDto {
         return ticketRepository.findById(id)
             .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }
+            .let { DetailedTicketDto(it) }
     }
 
-    fun getAllTickets(): List<TicketEntity> {
-        return ticketRepository.findAll().toList()
+    fun getAllTickets(): List<DetailedTicketDto> {
+        return ticketRepository.findAll().map { DetailedTicketDto(it) }
     }
 
-    fun updateTicket(id: Int, ticket: UpdateTicketDto): TicketEntity {
+    fun updateTicket(id: Int, ticket: UpdateTicketDto): DetailedTicketDto {
         val board = boardRepository.findById(ticket.boardId)
             .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found") }
         val labels = ticket.labelIds?.map {
@@ -54,6 +55,7 @@ class TicketService(
             toUpdate.labels = labels
             ticketRepository.save(toUpdate)
         }.orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }
+        .let { DetailedTicketDto(it) }
     }
 
     fun deleteTicket(id: Int) {

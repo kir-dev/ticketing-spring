@@ -6,6 +6,8 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.PreUpdate
@@ -44,9 +46,15 @@ data class TicketEntity(
     var updatedAt: Date = Date(),
 
     @ManyToOne
+    @JoinColumn(name = "board_id", nullable = false)
     var board: BoardEntity = BoardEntity(),
 
     @ManyToMany
+    @JoinTable(
+        name = "ticket_label",
+        joinColumns = arrayOf(JoinColumn(name = "ticket_id")),
+        inverseJoinColumns = arrayOf(JoinColumn(name = "label_id"))
+    )
     var labels: MutableList<LabelEntity> = mutableListOf()
 
 ) {

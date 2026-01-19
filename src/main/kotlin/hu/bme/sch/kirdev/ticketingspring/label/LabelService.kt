@@ -10,31 +10,33 @@ class LabelService(
     private val labelRepository: LabelRepository
 ) {
 
-    fun createLabel(label: CreateLabelDto): LabelEntity {
+    fun createLabel(label: CreateLabelDto): DetailedLabelDto {
         return labelRepository.save(
             LabelEntity(
                 name = label.name,
                 color = label.color
             )
-        )
+        ).let { DetailedLabelDto(it) }
     }
 
-    fun getLabel(id: Int): LabelEntity {
+    fun getLabel(id: Int): DetailedLabelDto {
         return labelRepository.findById(id)
             .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Label not found") }
+            .let { DetailedLabelDto(it) }
     }
 
-    fun getAllLabels(): List<LabelEntity> {
-        return labelRepository.findAll().toList()
+    fun getAllLabels(): List<DetailedLabelDto> {
+        return labelRepository.findAll().map { DetailedLabelDto(it) }
     }
 
-    fun updateLabel(id: Int, label: UpdateLabelDto): LabelEntity {
+    fun updateLabel(id: Int, label: UpdateLabelDto): DetailedLabelDto {
          return labelRepository.findById(id).map{
-            val toUpdate: LabelEntity = it
+            val toUpdate = it
             toUpdate.name = label.name
             toUpdate.color = label.color
             labelRepository.save(toUpdate)
         }.orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Label not found") }
+        .let { DetailedLabelDto(it) }
     }
 
     fun deleteLabel(id: Int) {

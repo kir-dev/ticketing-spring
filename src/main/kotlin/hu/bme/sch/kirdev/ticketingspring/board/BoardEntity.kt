@@ -19,10 +19,10 @@ data class BoardEntity(
     @Column(nullable = false)
     var createdAt: Date = Date(),
 
-    @OneToMany
+    @OneToMany(mappedBy = "board")
     var tickets: MutableList<TicketEntity> = mutableListOf(),
 
-) {
+    ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is BoardEntity) return false

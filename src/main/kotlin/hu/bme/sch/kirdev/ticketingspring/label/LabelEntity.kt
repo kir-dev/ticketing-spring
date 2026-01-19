@@ -24,7 +24,7 @@ data class LabelEntity(
     @Column(nullable = false)
     var color: String = "",
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "labels")
     var tickets: MutableList<TicketEntity> = mutableListOf()
 
 ){
