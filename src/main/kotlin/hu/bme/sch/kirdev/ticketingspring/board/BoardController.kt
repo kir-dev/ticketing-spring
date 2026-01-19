@@ -1,5 +1,6 @@
 package hu.bme.sch.kirdev.ticketingspring.board
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -15,6 +16,7 @@ class BoardController(
     private val boardService: BoardService
 ) {
 
+    @Operation(summary = "Create a new board")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -31,6 +33,7 @@ class BoardController(
     }
 
 
+    @Operation(summary = "List all boards")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -47,6 +50,7 @@ class BoardController(
     }
 
 
+    @Operation(summary = "Get a board by ID")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -64,6 +68,7 @@ class BoardController(
     }
 
 
+    @Operation(summary = "Update a board")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -84,6 +89,7 @@ class BoardController(
     }
 
 
+    @Operation(summary = "Delete a board")
     @ApiResponses(
         value = [
             ApiResponse(

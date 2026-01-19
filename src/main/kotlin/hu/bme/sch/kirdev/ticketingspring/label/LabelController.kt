@@ -1,6 +1,7 @@
 package hu.bme.sch.kirdev.ticketingspring.label
 
 import hu.bme.sch.kirdev.ticketingspring.board.BoardEntity
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -23,6 +24,7 @@ class LabelController(
     private val labelService: LabelService
 ) {
 
+    @Operation(summary = "Create a new label")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -39,6 +41,7 @@ class LabelController(
     }
 
 
+    @Operation(summary = "List all labels")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -55,6 +58,7 @@ class LabelController(
     }
 
 
+    @Operation(summary = "Get a label by its ID")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -72,6 +76,7 @@ class LabelController(
     }
 
 
+    @Operation(summary = "Update a label")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -89,6 +94,7 @@ class LabelController(
     }
 
 
+    @Operation(summary = "Delete a label")
     @ApiResponses(
         value = [
             ApiResponse(

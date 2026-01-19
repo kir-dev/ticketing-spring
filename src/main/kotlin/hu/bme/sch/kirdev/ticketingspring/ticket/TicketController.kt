@@ -1,5 +1,6 @@
 package hu.bme.sch.kirdev.ticketingspring.ticket
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -21,6 +22,7 @@ class TicketController(
     private val ticketService: TicketService
 ) {
 
+    @Operation(summary = "Create a new ticket")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -38,6 +40,7 @@ class TicketController(
     }
 
 
+    @Operation(summary = "List all tickets")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -54,6 +57,7 @@ class TicketController(
     }
 
 
+    @Operation(summary = "Get a ticket by ID")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -71,6 +75,7 @@ class TicketController(
     }
 
 
+    @Operation(summary = "Update a ticket")
     @ApiResponses(
         value = [
             ApiResponse(
@@ -89,6 +94,7 @@ class TicketController(
     }
 
 
+    @Operation(summary = "Delete a ticket")
     @ApiResponses(
         value = [
             ApiResponse(
