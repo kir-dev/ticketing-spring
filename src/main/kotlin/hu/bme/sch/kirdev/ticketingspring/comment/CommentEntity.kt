@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.PreUpdate
 import jakarta.persistence.Table
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import java.util.Date
@@ -31,6 +32,9 @@ data class CommentEntity(
     val postedAt: Date = Date(),
 
     @Column(nullable = false)
+    var updatedAt: Date = Date(),
+
+    @Column(nullable = false)
     var ticketId: Int = 0,
 
 ) {
@@ -45,5 +49,10 @@ data class CommentEntity(
 
     override fun toString(): String {
         return this::class.simpleName + "(id = $id)"
+    }
+
+    @PreUpdate
+    fun preUpdate() {
+        updatedAt = Date()
     }
 }

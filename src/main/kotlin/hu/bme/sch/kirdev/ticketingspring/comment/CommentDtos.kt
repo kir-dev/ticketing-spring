@@ -8,8 +8,7 @@ import java.util.Date
 @ConditionalOnBooleanProperty(value = ["hu.bme.sch.kirdev.ticketingspring.load.comment"])
 data class CreateCommentDto(
     val postedBy: String,
-    val content: String,
-    val ticketId: Int
+    val content: String
 )
 
 @ConditionalOnBooleanProperty(value = ["hu.bme.sch.kirdev.ticketingspring.load.comment"])
@@ -18,6 +17,7 @@ data class CommentDto(
     val postedBy: String,
     val content: String,
     val postedAt: Date,
+    val updatedAt: Date,
     val ticketId: Int,
 )
 {
@@ -26,6 +26,7 @@ data class CommentDto(
         postedBy = comment.postedBy,
         content = comment.content,
         postedAt = comment.postedAt,
+        updatedAt = comment.updatedAt,
         ticketId = comment.ticketId,
     )
 }
@@ -36,6 +37,7 @@ data class DetailedCommentDto(
     val postedBy: String,
     val content: String,
     val postedAt: Date,
+    val updatedAt: Date,
     val ticket: TicketDto
 ) {
     constructor(comment: CommentEntity, ticket: TicketEntity): this(
@@ -43,6 +45,7 @@ data class DetailedCommentDto(
         postedBy = comment.postedBy,
         content = comment.content,
         postedAt = comment.postedAt,
+        updatedAt = comment.updatedAt,
         ticket = TicketDto(ticket)
     )
 }

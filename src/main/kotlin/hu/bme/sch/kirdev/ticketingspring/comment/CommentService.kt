@@ -13,13 +13,13 @@ class CommentService(
     private val ticketRepository: TicketRepository
 ) {
 
-    fun createComment(comment: CreateCommentDto): DetailedCommentDto {
-        val ticket = ticketRepository.findById(comment.ticketId)
+    fun createComment(comment: CreateCommentDto, ticketId: Int): DetailedCommentDto {
+        val ticket = ticketRepository.findById(ticketId)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }
         return commentRepository.save(CommentEntity(
             postedBy = comment.postedBy,
             content = comment.content,
-            ticketId = comment.ticketId
+            ticketId = ticketId
         )).let { DetailedCommentDto(it, ticket) }
     }
 
@@ -33,24 +33,22 @@ class CommentService(
             }
     }
 
-    fun getAllComments(): List<DetailedCommentDto> {
-        return commentRepository.findAll().map { comment ->
-            val ticket = ticketRepository.findById(comment.ticketId)
-                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }
+    fun getAllCommentsForTicket(ticketId: Int): List<DetailedCommentDto> {
+        val ticket = ticketRepository.findById(ticketId)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }
+        return commentRepository.findAllByTicketId(ticketId).map { comment ->
             DetailedCommentDto(comment, ticket)
         }
     }
 
     fun updateComment(id: Int, comment: CreateCommentDto): DetailedCommentDto {
-        val ticket = ticketRepository.findById(comment.ticketId)
-            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }
         return commentRepository.findById(id).map {
             it.postedBy = comment.postedBy
             it.content = comment.content
-            it.ticketId = comment.ticketId
             commentRepository.save(it)
         }.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found") }
-        .let { DetailedCommentDto(it, ticket) }
+        .let { DetailedCommentDto(it, ticketRepository.findById(id)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }) }
     }
 
     fun deleteComment(id: Int) {
