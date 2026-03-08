@@ -40,20 +40,19 @@ class TicketService(
 
     fun updateTicket(id: Int, ticket: UpdateTicketDto): DetailedTicketDto {
         val board = boardRepository.findById(ticket.boardId)
-            .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found") }
+            .orElseThrow{ ResponseStatusException(HttpStatus.BAD_REQUEST, "Board not found") }
         val labels = ticket.labelIds?.map {
             labelRepository.findById(it)
-                .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Label not found") }
+                .orElseThrow{ ResponseStatusException(HttpStatus.BAD_REQUEST, "Label not found") }
         }?.toMutableList() ?: mutableListOf()
 
         return ticketRepository.findById(id).map{
-            val toUpdate = it
-            toUpdate.name = ticket.name
-            toUpdate.description = ticket.description?:""
-            toUpdate.status = ticket.status
-            toUpdate.board = board
-            toUpdate.labels = labels
-            ticketRepository.save(toUpdate)
+            it.name = ticket.name
+            it.description = ticket.description?:""
+            it.status = ticket.status
+            it.board = board
+            it.labels = labels
+            ticketRepository.save(it)
         }.orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found") }
         .let { DetailedTicketDto(it) }
     }

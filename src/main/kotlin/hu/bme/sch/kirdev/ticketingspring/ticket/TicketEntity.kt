@@ -1,6 +1,7 @@
 package hu.bme.sch.kirdev.ticketingspring.ticket
 
 import hu.bme.sch.kirdev.ticketingspring.board.BoardEntity
+import hu.bme.sch.kirdev.ticketingspring.comment.CommentEntity
 import hu.bme.sch.kirdev.ticketingspring.label.LabelEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -10,8 +11,10 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.PreUpdate
 import jakarta.persistence.Table
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import java.util.Date
 
 enum class TicketStatus {
@@ -52,8 +55,8 @@ data class TicketEntity(
     @ManyToMany
     @JoinTable(
         name = "ticket_label",
-        joinColumns = arrayOf(JoinColumn(name = "ticket_id")),
-        inverseJoinColumns = arrayOf(JoinColumn(name = "label_id"))
+        joinColumns = [JoinColumn(name = "ticket_id")],
+        inverseJoinColumns = [JoinColumn(name = "label_id")]
     )
     var labels: MutableList<LabelEntity> = mutableListOf()
 
