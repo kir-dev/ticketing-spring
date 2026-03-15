@@ -1,5 +1,7 @@
 package hu.bme.sch.kirdev.ticketingspring.board
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
@@ -10,37 +12,37 @@ class BoardController(
 ) {
 
     @PostMapping
-    fun createBoard(@RequestBody board: CreateBoardDto): String {
+    fun createBoard(@RequestBody board: CreateBoardDto): ResponseEntity<DetailedBoardDto> {
         val created = boardService.createBoard(board)
-        return created
+        return ResponseEntity.status(HttpStatus.CREATED).body(created)
     }
 
 
     @GetMapping
-    fun getAllBoards(): String {
+    fun getAllBoards(): ResponseEntity<List<DetailedBoardDto>> {
         val boards = boardService.getAllBoards()
-        return boards
+        return ResponseEntity.ok(boards)
     }
 
 
     @GetMapping("/{id}")
-    fun getBoard(@PathVariable id: Int): String {
+    fun getBoard(@PathVariable id: Int): ResponseEntity<DetailedBoardDto> {
         val board = boardService.getBoard(id)
-        return board
+        return ResponseEntity.ok(board)
     }
 
 
     @PatchMapping("/{id}")
-    fun updateBoard(@PathVariable id: Int, @RequestBody board: UpdateBoardDto): String {
+    fun updateBoard(@PathVariable id: Int, @RequestBody board: UpdateBoardDto): ResponseEntity<DetailedBoardDto> {
         val updated = boardService.updateBoard(id, board)
-        return updated
+        return ResponseEntity.ok(updated)
     }
 
 
     @DeleteMapping("/{id}")
-    fun deleteBoard(@PathVariable id: Int): String {
-        val res = boardService.deleteBoard(id)
-        return res
+    fun deleteBoard(@PathVariable id: Int): ResponseEntity<Void> {
+        boardService.deleteBoard(id)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 
 }
