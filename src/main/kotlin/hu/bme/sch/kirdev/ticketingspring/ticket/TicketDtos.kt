@@ -1,7 +1,9 @@
 package hu.bme.sch.kirdev.ticketingspring.ticket
 
 import hu.bme.sch.kirdev.ticketingspring.board.BoardDto
+import hu.bme.sch.kirdev.ticketingspring.comment.CommentDto
 import hu.bme.sch.kirdev.ticketingspring.label.LabelDto
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import java.util.Date
 
 data class CreateTicketDto(
@@ -54,6 +56,32 @@ data class DetailedTicketDto(
         status = ticket.status,
         board = BoardDto(ticket.board),
         labels = ticket.labels.map { LabelDto(it) },
+        createdAt = ticket.createdAt,
+        updatedAt = ticket.updatedAt,
+    )
+}
+
+
+@ConditionalOnBooleanProperty(value = ["hu.bme.sch.kirdev.ticketingspring.load.comment"])
+data class TicketWithCommentsDto(
+    val id: Int,
+    val name: String,
+    val description: String,
+    val status: TicketStatus,
+    val board: BoardDto,
+    val labels: List<LabelDto>,
+    val comments: List<CommentDto>,
+    val createdAt: Date,
+    val updatedAt: Date,
+){
+    constructor(ticket: TicketEntity, comments: List<CommentDto>): this(
+        id = ticket.id,
+        name = ticket.name,
+        description = ticket.description,
+        status = ticket.status,
+        board = BoardDto(ticket.board),
+        labels = ticket.labels.map { LabelDto(it) },
+        comments = comments,
         createdAt = ticket.createdAt,
         updatedAt = ticket.updatedAt,
     )
