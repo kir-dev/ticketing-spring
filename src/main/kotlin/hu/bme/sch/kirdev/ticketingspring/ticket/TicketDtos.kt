@@ -14,7 +14,6 @@ data class UpdateTicketDto(
     val description: String?,
     var status: TicketStatus,
     var boardId: Int,
-    var labelIds: List<Int>?
 )
 
 data class TicketDto(
