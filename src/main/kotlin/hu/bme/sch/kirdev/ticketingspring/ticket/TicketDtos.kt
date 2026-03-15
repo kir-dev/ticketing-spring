@@ -1,12 +1,14 @@
 package hu.bme.sch.kirdev.ticketingspring.ticket
 
 import hu.bme.sch.kirdev.ticketingspring.board.BoardDto
-import java.util.*
+import hu.bme.sch.kirdev.ticketingspring.label.LabelDto
+import java.util.Date
 
 data class CreateTicketDto(
     val name: String,
     val description: String?,
     var boardId: Int,
+    var labelIds: List<Int>?
 )
 
 data class UpdateTicketDto(
@@ -14,6 +16,7 @@ data class UpdateTicketDto(
     val description: String?,
     var status: TicketStatus,
     var boardId: Int,
+    var labelIds: List<Int>?
 )
 
 data class TicketDto(
@@ -40,6 +43,7 @@ data class DetailedTicketDto(
     val description: String,
     val status: TicketStatus,
     val board: BoardDto,
+    val labels: List<LabelDto>,
     val createdAt: Date,
     val updatedAt: Date,
 ){
@@ -49,6 +53,7 @@ data class DetailedTicketDto(
         description = ticket.description,
         status = ticket.status,
         board = BoardDto(ticket.board),
+        labels = ticket.labels.map { LabelDto(it) },
         createdAt = ticket.createdAt,
         updatedAt = ticket.updatedAt,
     )

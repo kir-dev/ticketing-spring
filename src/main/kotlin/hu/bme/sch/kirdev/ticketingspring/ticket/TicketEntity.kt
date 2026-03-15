@@ -1,6 +1,7 @@
 package hu.bme.sch.kirdev.ticketingspring.ticket
 
 import hu.bme.sch.kirdev.ticketingspring.board.BoardEntity
+import hu.bme.sch.kirdev.ticketingspring.label.LabelEntity
 import jakarta.persistence.*
 import java.util.*
 
@@ -38,6 +39,14 @@ data class TicketEntity(
     @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
     var board: BoardEntity = BoardEntity(),
+
+    @ManyToMany
+    @JoinTable(
+        name = "ticket_label",
+        joinColumns = [JoinColumn(name = "ticket_id")],
+        inverseJoinColumns = [JoinColumn(name = "label_id")]
+    )
+    var labels: MutableList<LabelEntity> = mutableListOf()
 
 ) {
     override fun equals(other: Any?): Boolean {
