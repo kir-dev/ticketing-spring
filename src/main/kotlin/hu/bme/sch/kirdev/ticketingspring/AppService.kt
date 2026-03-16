@@ -10,6 +10,6 @@ class AppService{
 
     fun getPersonalizedHello(name: String, day: String?): String{
         val Day = day?:"day"
-        return "Hello, $name, have a nice $Day!"
+        return "Hello $name, have a nice $Day!"
     }
 }
